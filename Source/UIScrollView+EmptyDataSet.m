@@ -345,6 +345,10 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
     if (self.emptyDataSetDelegate && [self.emptyDataSetDelegate respondsToSelector:@selector(emptyDataSetDidAppear:)]) {
         [self.emptyDataSetDelegate emptyDataSetDidAppear:self];
     }
+    // 解决滚动位置被还原后,占位图y坐标未及时更新问题
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.emptyDataSetView.frame = self.bounds;
+    });
 }
 
 - (void)dzn_willDisappear
